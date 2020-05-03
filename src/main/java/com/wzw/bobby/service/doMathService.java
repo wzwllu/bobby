@@ -20,14 +20,17 @@ import java.util.Map;
 public class doMathService {
     private static Map<String, List<MathList>> userList = new HashMap<>();
 
-    private static Map<String, Long> old = new HashMap<>();
+    private static Map<String, Map<String, Object>> old = new HashMap<>();
 
     @Scheduled(fixedRate=60*60*1000)
     private void clearOld(){
         List<String> keys = new ArrayList<>();
         for(String key:old.keySet()){
-           if((System.currentTimeMillis()-old.get(key))>60*60*1000){
-               keys.add(key);
+           Object oldtime = old.get(key).get("time");
+           if(oldtime!=null) {
+               if ((System.currentTimeMillis() - (long) oldtime) > 60 * 60 * 1000) {
+                   keys.add(key);
+               }
            }
         }
         for(String k:keys){
@@ -36,12 +39,42 @@ public class doMathService {
         }
     }
 
+    public static void addTime(String key){
+        Map<String,Object> map = old.get(key);
+        if(map==null) {
+            Map<String, Object> map2 = new HashMap<>();
+            map2.put("time", System.currentTimeMillis());
+            old.put(key, map2);
+        }else{
+            map.put("time", System.currentTimeMillis());
+        }
+    }
+
+    public static long theTime(String key){
+
+        if(old.get(key)!=null && old.get(key).get("time")!=null) {
+            return System.currentTimeMillis() - (long)old.get(key).get("time");
+        }else{
+            return -1;
+        }
+    }
+
+    public static int theDo(String key){
+        if(old.get(key)!=null && old.get(key).get("do")!=null) {
+            return (int) old.get(key).get("do");
+        }else{
+            return -1;
+        }
+
+
+    }
+
     public static List<MathList> showList(String key){
         return userList.get(key);
     }
 
     public static void addList(String key ,List<MathList> list){
-        old.put(key,System.currentTimeMillis());
+//        old.put(key,System.currentTimeMillis());
         userList.put(key,list);
     }
 
@@ -57,7 +90,7 @@ public class doMathService {
     }
 
     public static void ansMath(int ans,String userid,int i){
-
+        old.get(userid).put("do",i);
         MathList mathList = showCurMathList(userid,i);
         if(mathList!=null){
             mathList.correct(ans);

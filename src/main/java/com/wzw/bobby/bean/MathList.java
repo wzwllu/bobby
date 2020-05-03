@@ -23,6 +23,7 @@ public class MathList {
 
 
 
+
     public MathList(int max,int min,int result,int userd){
         list[0]=max;
         list[1]=min;

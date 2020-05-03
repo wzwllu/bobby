@@ -1,6 +1,7 @@
 package com.wzw.bobby.viewer;
 
 import com.wzw.bobby.bean.MathList;
+import com.wzw.bobby.bean.MathShow;
 import com.wzw.bobby.service.doMathService;
 import com.wzw.bobby.service.fixService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ Author     ：wuzhengwei.
@@ -58,7 +60,7 @@ public class mathViewer {
                               @RequestParam String no,
                                 @RequestParam String ans
     ){
-        MathList result = new MathList();
+        MathList result = null;
         try {
         if("0".equals(no)){
             result =doMathService.showCurMathList(request.getSession().getId(),Integer.valueOf(no));
@@ -89,5 +91,37 @@ public class mathViewer {
 
     }
 
+    @RequestMapping(value = "/continueMath",method = RequestMethod.POST)
+    public MathShow  continueToMath(HttpServletRequest request ){
+        MathList result = null;
+        try {
+            int doMath = doMathService.theDo(request.getSession().getId());
+            result =doMathService.showCurMathList(request.getSession().getId(),doMath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        if(result==null){
+            result = new MathList(25,25,425,3);
+        }
+        MathShow mathShow = new MathShow();
+
+        mathShow.setMax(String.valueOf(result.getList()[0]));
+        mathShow.setMin(String.valueOf(result.getList()[1]));
+        mathShow.setCount(String.valueOf(result.getList()[2]));
+        mathShow.setFlag(String.valueOf(result.getFlag()));
+
+        if(result.getKong()==0){
+            mathShow.setMax("");
+        }else if(result.getKong()==1){
+            mathShow.setMin("");
+        }else if(result.getKong()==2){
+            mathShow.setCount("");
+        }
+
+        return mathShow;
+
+    }
 
 }
