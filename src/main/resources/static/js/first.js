@@ -1,6 +1,6 @@
 
 function allAction(){
-
+    stopTime();
 
     $.ajax({
         url: "endtoMath",
@@ -54,6 +54,7 @@ function mathAction(){
 
 
 function btnAction() {
+    startTime();
     $.ajax({
         url: "startMath",
         type: "post",
@@ -104,7 +105,60 @@ function showDate(data){
     $('#resultMath').css("height",$('#mathFlag').height())
 }
 
+let timer = null;
 
 
+function startTime(){
+
+    timer= setInterval(function(){
+
+    $.ajax({
+        url: "getTime",
+        type: "post",
+        data: {
+        },
+        datatype: "json",
+        timeout : 60000,
+        success: function (data) {
+
+           $('#hours').text(formatSeconds(data/1000));} }
+           ,1000)
+
+
+    });
+
+
+
+}
+
+
+function stopTime(){
+    clearInterval(timer);
+}
+
+//将秒数转换为时分秒格式
+function formatSeconds(value) {
+
+    var theTime = parseInt(value);// 秒
+    var middle= 0;// 分
+    var hour= 0;// 小时
+
+    if(theTime > 60) {
+        middle= parseInt(theTime/60);
+        theTime = parseInt(theTime%60);
+        if(middle> 60) {
+            hour= parseInt(middle/60);
+            middle= parseInt(middle%60);
+        }
+    }
+    var result = ""+parseInt(theTime)+"秒";
+    if(middle > 0) {
+        result = ""+parseInt(middle)+"分"+result;
+    }
+    if(hour> 0) {
+        result = ""+parseInt(hour)+"小时"+result;
+    }
+    return result;
+}
 
 

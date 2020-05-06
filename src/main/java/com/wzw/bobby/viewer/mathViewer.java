@@ -83,6 +83,16 @@ public class mathViewer {
 
     }
 
+    @RequestMapping(value = "/getTime",method = RequestMethod.POST)
+    public long getTime(HttpServletRequest request
+    ){
+
+         return doMathService.theTime(request.getSession().getId());
+
+    }
+
+
+
     @RequestMapping(value = "/continueMath",method = RequestMethod.POST)
     public MathShow  continueToMath(HttpServletRequest request ){
         MathList result = null;
