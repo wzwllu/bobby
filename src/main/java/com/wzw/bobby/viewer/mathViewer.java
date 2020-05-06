@@ -1,6 +1,5 @@
 package com.wzw.bobby.viewer;
 
-import com.sun.istack.internal.logging.Logger;
 import com.wzw.bobby.bean.MathList;
 import com.wzw.bobby.bean.MathShow;
 import com.wzw.bobby.service.doMathService;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ Author     ：wuzhengwei.
