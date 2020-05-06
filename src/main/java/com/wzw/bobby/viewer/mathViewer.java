@@ -106,7 +106,7 @@ public class mathViewer {
 
         }
         if(result==null){
-            result = new MathList(25,25,425,3);
+            result = new MathList(0,0,0,1);
         }
         MathShow mathShow = new MathShow();
 

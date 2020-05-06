@@ -83,7 +83,7 @@ function showDate(data){
         $('#mathFlag').attr("src", "images/div.jpg");
     }
 
-    $('#result').text("第"+ data.no+"题");
+    $('#result').text("第"+ (data.no+1)+"题");
     $('#result').val(data.no);
 
 
