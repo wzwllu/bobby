@@ -15,4 +15,6 @@ public class MathShow {
     private String min;
     private String count;
     private String flag;
+    private String no;
+    private String time;
 }

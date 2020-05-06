@@ -1,77 +1,110 @@
 
-function mathAction(){
+function allAction(){
 
-    alert("提交");
+
+    $.ajax({
+        url: "endtoMath",
+        type: "post",
+        data: {
+             },
+        datatype: "json",
+        timeout : 60000,
+        success: function (data) {
+
+            let wrongDo=0;
+            let str="";
+            for (i = 0; i < data.length; i++) {
+                if(data[i].rightOrWrong){
+                    str=str+"<div class=\"col-xs-12  col-sm-12 col-md-3\" style=\"text-align: center;font-size:20px;color:green\">"+data[i].showStr+"</div>";
+                }else{
+                    wrongDo++;
+                    str=str+"<div class=\"col-xs-12  col-sm-12 col-md-3\" style=\"text-align: center;font-size:20px;color:red\">"+data[i].showStr+"</div>";
+                }
+
+            }
+            $('#allresulttitle').html("<h3>共"+data.length+"题，错误"+wrongDo+"题</h3>");
+            $('#allresult').html(str);
+        }
+
+    });
 }
 
 
-function btnAction() {
-    var serverlist=[];
-    $("#searchable option:selected").each(function() {
-        serverlist.push($(this).val());
-    });
-    var check1= $('#ex1').is(':checked');
-    var check2= $('#ex2').prop("checked");
-    var check3= $('#ex3').prop("checked");
-    var checkvalue1=0;
-    var checkvalue2=0;
-    var checkvalue3=1;
-    if(check1){
-        checkvalue1=1;
-    }
-    if(check2){
-        checkvalue2=1;
-    }
-    if(check3){
-        checkvalue3=0;
-    }
+
+
+function mathAction(){
+
 
     $.ajax({
-        url: "/fileCheckWeb/checkService/exeCheck",
+        url: "toMath",
         type: "post",
         data: {
-            version: $('#classsearch').val(),
-            severlist: serverlist.toString(),
-            issame:checkvalue1,
-            md5:  checkvalue2,
-            nocache:checkvalue3
+            no: $('#result').val(),
+            ans: $('#resultMath').val()
 
         },
         datatype: "json",
         timeout : 60000,
-        error : function(){
-            $("#myModal .modal-header").html("<h2>War Check Error<h2>");//更改模态框的标题，显示正在操作
-            $('#modelclosebtn').removeClass("btn-primary").addClass("btn-success").prop('disabled', false);
-        },
-        beforeSend: function () { //执行前事件
-            $('#myModal').modal({backdrop: 'static', keyboard: false});
-            $("#myModal").modal('show');//显示模态框
-            $("#myModal .modal-header").html("<h2>Getting War Check Info.....<h2>");//更改模态框的标题，显示正在操作
-            value=0;
-            setTimeout(increment,100);
-        },
         success: function (data) {
+            showDate(data);
+        }
 
-            $('#myModal').modal('hide');
-            if(data!=null){
-                // var base= JSON.parse(data);
-
-                var table= $('#datatable').dataTable();
-                $('#result').html(data.msg).css("style", "white-space: normal; word-wrap: break-word; word-break: break-all");
-                //     table.clear().draw();
-                table.fnClearTable();
-                //  table.rows.add(base.rows).draw();
-                table.fnAddData(data.rows,true);
-            }else{
-                alert('操作有误，或者没有数据')
-            }
+    });
+}
 
 
+function btnAction() {
+    $.ajax({
+        url: "startMath",
+        type: "post",
+        data: {
+        },
+        datatype: "json",
+        timeout : 60000,
+      success: function (data) {
+          showDate(data);
+          $('#allresult').html();
         }
 
     });
 
 
 }
+
+function showDate(data){
+    if(data.flag=="1"){
+        $('#mathFlag').attr("src", "images/add.jpg");
+    }else if(data.flag=="2"){
+        $('#mathFlag').attr("src", "images/sub.jpg");
+    }else if(data.flag=="3"){
+        $('#mathFlag').attr("src", "images/mutli.jpg");
+    }else if(data.flag=="4"){
+        $('#mathFlag').attr("src", "images/div.jpg");
+    }
+
+    $('#result').text("第"+ data.no+"题");
+    $('#result').val(data.no);
+
+
+    if(data.max!=""){
+        $('#maxmath').text(data.max);
+    }else {
+        $('#maxmath').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:80%;\">")
+    }
+    if(data.min!=""){
+        $('#minmath').text(data.min);
+    }else {
+        $('#minmath').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:80%;\">")
+    }
+    if(data.count!=""){
+        $('#outcome').text(data.count);
+    }else {
+        $('#outcome').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:80%;\">")
+    }
+    $('#resultMath').css("height",$('#mathFlag').height())
+}
+
+
+
 
 

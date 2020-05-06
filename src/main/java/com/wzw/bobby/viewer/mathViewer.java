@@ -1,5 +1,6 @@
 package com.wzw.bobby.viewer;
 
+import com.sun.istack.internal.logging.Logger;
 import com.wzw.bobby.bean.MathList;
 import com.wzw.bobby.bean.MathShow;
 import com.wzw.bobby.service.doMathService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,15 +26,15 @@ import java.util.Map;
 public class mathViewer {
 
     @RequestMapping(value = "/startMath",method = RequestMethod.POST)
-    public String initDB(HttpServletRequest request,
+    public MathShow initDB(HttpServletRequest request,
                          @RequestParam(value = "count",defaultValue = "100")String count ,
-                         @RequestParam(value = "addScale",defaultValue = "0")String addScale,
-                         @RequestParam(value = "subScale",defaultValue = "0")String subScale ,
-                         @RequestParam(value = "mutliScale",defaultValue = "0")String mutliScale,
-                         @RequestParam(value = "divScale",defaultValue = "0")String divScale,
-                         @RequestParam(value = "hard",defaultValue = "0")String hard,
-                         @RequestParam(value = "addmax",defaultValue = "10")String addmax,
-                         @RequestParam(value = "submax",defaultValue = "10")String submax,
+                         @RequestParam(value = "addScale",defaultValue = "25")String addScale,
+                         @RequestParam(value = "subScale",defaultValue = "25")String subScale ,
+                         @RequestParam(value = "mutliScale",defaultValue = "25")String mutliScale,
+                         @RequestParam(value = "divScale",defaultValue = "25")String divScale,
+                         @RequestParam(value = "hard",defaultValue = "100")String hard,
+                         @RequestParam(value = "addmax",defaultValue = "100")String addmax,
+                         @RequestParam(value = "submax",defaultValue = "100")String submax,
                          @RequestParam(value = "mutlimax",defaultValue = "10")String mutlimax,
                          @RequestParam(value = "divmax",defaultValue = "10")String divmax
                          ) {
@@ -48,38 +50,31 @@ public class mathViewer {
                     Integer.valueOf(mutlimax),
                     Integer.valueOf(divmax)).makeList();
             doMathService.addList(request.getSession().getId(), list);
-
+            System.out.println(list.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "ok";
+        return continueToMath(request);
     }
 
     @RequestMapping(value = "/toMath",method = RequestMethod.POST)
-    public MathList startToMath(HttpServletRequest request,
+    public MathShow startToMath(HttpServletRequest request,
                               @RequestParam String no,
                                 @RequestParam String ans
     ){
-        MathList result = null;
         try {
-        if("0".equals(no)){
-            result =doMathService.showCurMathList(request.getSession().getId(),Integer.valueOf(no));
-        }else{
             doMathService.ansMath(Integer.valueOf(ans),request.getSession().getId(),Integer.valueOf(no));
-            result =doMathService.showCurMathList(request.getSession().getId(),Integer.valueOf(no)+1);
-        }
-        } catch (Exception e) {
+                 } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return continueToMath(request);
 
     }
 
     @RequestMapping(value = "/endtoMath",method = RequestMethod.POST)
-    public List<MathList>  endToMath(HttpServletRequest request,
-                                @RequestParam String no,
-                                @RequestParam String ans
+    public List<MathList>  endToMath(HttpServletRequest request
     ){
+
         List<MathList> result  = null;
         try {
             result = doMathService.showList(request.getSession().getId());
@@ -94,8 +89,9 @@ public class mathViewer {
     @RequestMapping(value = "/continueMath",method = RequestMethod.POST)
     public MathShow  continueToMath(HttpServletRequest request ){
         MathList result = null;
+        int doMath=0;
         try {
-            int doMath = doMathService.theDo(request.getSession().getId());
+            doMath = doMathService.theDo(request.getSession().getId(),true);
             result =doMathService.showCurMathList(request.getSession().getId(),doMath);
 
         } catch (Exception e) {
@@ -111,7 +107,7 @@ public class mathViewer {
         mathShow.setMin(String.valueOf(result.getList()[1]));
         mathShow.setCount(String.valueOf(result.getList()[2]));
         mathShow.setFlag(String.valueOf(result.getFlag()));
-
+        mathShow.setNo(String.valueOf(doMath));
         if(result.getKong()==0){
             mathShow.setMax("");
         }else if(result.getKong()==1){

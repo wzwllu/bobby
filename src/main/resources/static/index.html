@@ -72,7 +72,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <button class="btn btn-primary" type="submit" onclick="btnAction()">开始做题</button>
-                    <button class="btn btn-primary" type="submit" onclick="btnAction()">交卷</button>
+                    <button class="btn btn-primary" type="submit" onclick="allAction()">交卷</button>
 
                 </div>
             </div>
@@ -86,15 +86,14 @@
                         </div>
                         <div class="content">
                             <div class="container-fluid">
-                                <div class="row"><font size="40">
-                                    <div id="maxmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;">数字一</div>
+                                <div class="row">
+                                    <div id="maxmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px">100000</div>
                                     <div class="col-xs-12  col-sm-12 col-md-2"><img id="mathFlag" src="images/add.jpg" /></div>
-                                    <div id="minmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;">数字2</div>
+                                    <div id="minmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px">数字2</div>
                                     <div class="col-xs-12  col-sm-12 col-md-2"><img src="images/equals.jpg" /></div>
 
-                                    <div id="outcome" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;"> <input id="resultMath" type="text" class="div2" style="width:120px;"></div>
-                                </font>
-                                    <div class="col-xs-12  col-sm-12 col-md-2">
+                                    <div id="outcome" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px"> <input id="resultMath" type="text" class="div2" style="width:80%;"></div>
+                                                                 <div class="col-xs-12  col-sm-12 col-md-2">
                                         <button class="btn btn-primary" type="submit" onclick="mathAction()">提交</button>
                                     </div>
                                 </div>
@@ -104,11 +103,28 @@
                 </div>
             </div>
 
+            <div class="row"  >
+                <div class="col-md-12">
+                    <div class="block-flat" >
+                        <div class="header" id="allresulttitle">
 
+                        </div>
+                        <div class="content">
+                            <div class="container-fluid">
+                                <div class="row" id="allresult">
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -167,37 +183,10 @@
             url: "continueMath",
             type: "post",
             datatype:"json",
-            success: function(data){
-
-                if(data.flag=="1"){
-                    $('#mathFlag').attr("src", "images/add.jpg");
-                }else if(data.flag=="2"){
-                    $('#mathFlag').attr("src", "images/sub.jpg");
-                }else if(data.flag=="3"){
-                    $('#mathFlag').attr("src", "images/mutli.jpg");
-                }else if(data.flag=="4"){
-                    $('#mathFlag').attr("src", "images/div.jpg");
-                }
-
-                if(data.max!=""){
-                    $('#maxmath').text(data.max);
-                }else {
-                    $('#maxmath').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:20px;\">")
-                }
-                if(data.min!=""){
-                    $('#minmath').text(data.min);
-                }else {
-                    $('#minmath').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:20px;\">")
-                }
-                if(data.count!=""){
-                    $('#outcome').text(data.count);
-                }else {
-                    $('#outcome').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:20px;\">")
-                }
-                $('#resultMath').css("height",$('#mathFlag').height())
+            success: function(data) {
+                showDate(data);
             }
-        });
-
+            })
     });
 
 </script>
