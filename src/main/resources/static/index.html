@@ -30,7 +30,18 @@
 <!--    <link rel="stylesheet" type="text/css" href="jslib/jquery.datatables/bootstrap-adapter/css/jquery.dataTables.css" />-->
 
     <link href="css/style.css" rel="stylesheet" />
+<style>
 
+    .row.no-gutter {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .row.no-gutter [class ^="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+</style>
 </head>
 
 <body>
@@ -129,16 +140,16 @@
                         </div>
                         <div class="content">
                             <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-xs-12  col-sm-12 col-md-8">
-                                    <div id="maxmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px">100000</div>
+                                <div class="row no-gutter">
+                                    <div class="col-xs-12  col-sm-12 col-md-9">
+                                    <div id="maxmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:80px">100000</div>
                                     <div class="col-xs-12  col-sm-12 col-md-2"><img id="mathFlag" src="images/add.jpg" /></div>
-                                    <div id="minmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px">数字2</div>
+                                    <div id="minmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:80px">数字2</div>
                                     <div class="col-xs-12  col-sm-12 col-md-2"><img src="images/equals.jpg" /></div>
 
-                                    <div id="outcome" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px"> <input id="resultMath" type="text"></div>
+                                    <div id="outcome" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:80px"> <input id="resultMath" class="form-control" type="text"></div>
                                     </div>
-                                    <div class="col-xs-12  col-sm-12 col-md-4">
+                                    <div class="col-xs-12  col-sm-12 col-md-3">
                                         <div class="row">
                                             <div class="col-xs-12  col-sm-12 col-md-4">
                                             <button class="btn btn-primary" type="submit" style="width:80px;height:60px;" onclick="finger(1)">1</button>
@@ -238,11 +249,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#maxmath').css("height",$('#mathFlag').height());
-        $('#minmath').css("height",$('#mathFlag').height())
-        $('#outcome').css("height",$('#mathFlag').height())
-
-        $.ajax({
+          $.ajax({
             url: "continueMath",
             type: "post",
             datatype:"json",

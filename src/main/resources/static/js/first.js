@@ -141,10 +141,10 @@ function showDate(data){
     $('#maxmathvalue').css("height",$('#mathFlag').height())
     $('#minmathvalue').css("height",$('#mathFlag').height())
     $('#resultMathvalue').css("height",$('#mathFlag').height())
-    $('#resultMath').css("width",$('#mathFlag').width()*1.5)
-    $('#maxmathvalue').css("width",$('#mathFlag').width()*1.5)
-    $('#minmathvalue').css("width",$('#mathFlag').width()*1.5)
-    $('#resultMathvalue').css("width",$('#mathFlag').width()*1.5)
+    $('#resultMath').css("width",$('#mathFlag').width()*1.2)
+    $('#maxmathvalue').css("width",$('#mathFlag').width()*1.2)
+    $('#minmathvalue').css("width",$('#mathFlag').width()*1.2)
+    $('#resultMathvalue').css("width",$('#mathFlag').width()*1.2)
     $('#resultMath').focus();
 
 
