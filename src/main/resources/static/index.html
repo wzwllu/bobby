@@ -71,11 +71,51 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary" type="submit" onclick="btnAction()">开始做题</button>
+                    <button class="btn btn-primary" type="submit" onclick="newAction()">开始做题</button>
                     <button class="btn btn-primary" type="submit" onclick="allAction()">交卷</button>
 
                 </div>
             </div>
+
+            <div class="row" id="startInit" hidden >
+                <div class="col-md-12">
+                    <div class="block-flat" >
+
+                        <div class="content">
+                            <div class="container-fluid">
+                                <div class="row" >
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">总题目数 <input id="count" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">难度 <input id="hard" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">退位计算比例 <input id="balance" type="text" maxlength="3" size="3"></div>
+
+                                </div>
+                                <div class="row" >
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">自定义加法最大值 <input id="addmax" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">加法题目比例 <input id="addScale" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">自定义减法法最大值 <input id="submax" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">减法题目比例 <input id="subScale" type="text" maxlength="3" size="3"></div>
+                                </div>
+                                <div class="row" >
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">自定义乘法最大值 <input id="mutlimax" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">乘法题目比例 <input id="mutliScale" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">自定义除法法最大值 <input id="divmax" type="text" maxlength="3" size="3"></div>
+                                    <div  class="col-xs-12  col-sm-12 col-md-3" style="text-align: center;">除法题目比例 <input id="divScale" type="text" maxlength="3" size="3"></div>
+                                </div>
+                                <div class="row" >
+                                    <button class="btn btn-primary" type="submit" onclick="btnAction()">开始做题</button>
+                                    <button class="btn btn-primary" type="submit" onclick="resetAction()">重置</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="block-flat">
@@ -90,14 +130,59 @@
                         <div class="content">
                             <div class="container-fluid">
                                 <div class="row">
+                                    <div class="col-xs-12  col-sm-12 col-md-8">
                                     <div id="maxmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px">100000</div>
                                     <div class="col-xs-12  col-sm-12 col-md-2"><img id="mathFlag" src="images/add.jpg" /></div>
                                     <div id="minmath" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px">数字2</div>
                                     <div class="col-xs-12  col-sm-12 col-md-2"><img src="images/equals.jpg" /></div>
 
-                                    <div id="outcome" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px"> <input id="resultMath" type="text" class="div2" style="width:80%;"></div>
-                                                                 <div class="col-xs-12  col-sm-12 col-md-2">
-                                        <button class="btn btn-primary" type="submit" onclick="mathAction()">提交</button>
+                                    <div id="outcome" class="col-xs-12  col-sm-12 col-md-2" style="text-align: center;font-size:100px"> <input id="resultMath" type="text"></div>
+                                    </div>
+                                    <div class="col-xs-12  col-sm-12 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                            <button class="btn btn-primary" type="submit" style="width:80px;height:60px;" onclick="finger(1)">1</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(2)">2</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(3)">3</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(4)">4</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(5)">5</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(6)">6</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(7)">7</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(8)">8</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(9)">9</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-primary" type="submit" style="width:80px;height:60px;"  onclick="finger(0)">0</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-info" type="submit" style="width:80px;height:60px;"  onclick="clearAction()">清除</button>
+                                            </div>
+                                            <div class="col-xs-12  col-sm-12 col-md-4">
+                                                <button class="btn btn-success" type="submit" style="width:80px;height:60px;"  onclick="mathAction()">提交</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +191,7 @@
                 </div>
             </div>
 
-            <div class="row"  >
+            <div class="row"  id="resultMode" hidden>
                 <div class="col-md-12">
                     <div class="block-flat" >
                         <div class="header" id="allresulttitle">
@@ -126,31 +211,6 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">配置更新完成</h4>
-            </div>
-            <div class="modal-body">
-                <div  class="progress progress-striped active">
-                    <div id="myprogress" class="progress-bar progress-bar-success" role="progressbar"
-                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                         style="width: 10px;">
-
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="modelclosebtn" type="button" class="btn btn-primary" data-dismiss="modal" disabled="disabled">关闭</button>
-                <!--<button type="button" class="btn btn-primary">提交更改</button>-->
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
 </div>
 
 
@@ -190,6 +250,15 @@
                 showDate(data);
             }
             })
+
+        $(document).bind("keydown", function (e) {
+            // 兼容FF和IE和Opera
+            var theEvent = e || window.event;
+            var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+            if (code == 13) {
+                mathAction();
+            }
+        });
     });
 
 </script>

@@ -96,19 +96,28 @@ public class mathViewer {
     @RequestMapping(value = "/continueMath",method = RequestMethod.POST)
     public MathShow  continueToMath(HttpServletRequest request ){
         MathList result = null;
+        MathShow mathShow = new MathShow();
         int doMath=0;
         try {
             doMath = doMathService.theDo(request.getSession().getId(),true);
+
+            if(doMath==-1){
+                mathShow.setMax("0");
+                mathShow.setMin("0");
+                mathShow.setCount("");
+                mathShow.setFlag("1");
+                mathShow.setNo("-1");
+                return mathShow;
+            }
+
             result =doMathService.showCurMathList(request.getSession().getId(),doMath);
 
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        if(result==null){
-            result = new MathList(0,0,0,1);
-        }
-        MathShow mathShow = new MathShow();
+
+
 
         mathShow.setMax(String.valueOf(result.getList()[0]));
         mathShow.setMin(String.valueOf(result.getList()[1]));

@@ -86,6 +86,9 @@ public class doMathService {
     }
 
     public static void addList(String key ,List<MathList> list){
+        userList.remove(key);
+        old.remove(key);
+
         addTime(key);
 //        old.put(key,System.currentTimeMillis());
         userList.put(key,list);

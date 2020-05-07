@@ -1,7 +1,7 @@
 
 function allAction(){
     stopTime();
-
+    $('#resultMode').show();
     $.ajax({
         url: "endtoMath",
         type: "post",
@@ -46,25 +46,57 @@ function mathAction(){
         datatype: "json",
         timeout : 60000,
         success: function (data) {
-            showDate(data);
+            if (data.no == "-1") {
+                allAction();
+            } else {
+                showDate(data);
+            }
         }
 
     });
 }
 
+function newAction(){
+    $('#startInit').show();
+    $('#count').val(100);
+    $('#addScale').val(25);
+    $('#subScale').val(25);
+     $('#mutliScale').val(25);
+     $('#divScale').val(25);
+     $('#hard').val(50);
+     $('#addmax').val(100);
+      $('#submax').val(100);
+     $('#mutlimax').val(10);
+     $('#divmax').val(10);
+
+}
 
 function btnAction() {
+
     startTime();
+
     $.ajax({
         url: "startMath",
         type: "post",
         data: {
+            count:$('#count').val(),
+            addScale:$('#addScale').val(),
+            subScale:$('#subScale').val(),
+            mutliScale:$('#mutliScale').val(),
+            divScale:$('#divScale').val(),
+            hard:$('#hard').val(),
+            addmax:$('#addmax').val(),
+            submax:$('#submax').val(),
+            mutlimax:$('#mutlimax').val(),
+            divmax:$('#divmax').val()
         },
         datatype: "json",
         timeout : 60000,
       success: function (data) {
+          $('#startInit').hide();
           showDate(data);
           $('#allresult').html();
+
         }
 
     });
@@ -83,51 +115,50 @@ function showDate(data){
         $('#mathFlag').attr("src", "images/div.jpg");
     }
 
-    $('#result').text("第"+ (data.no+1)+"题");
+    $('#result').text("第"+ (parseInt(data.no)+1)+"题");
     $('#result').val(data.no);
 
 
     if(data.max!=""){
-        $('#maxmath').text(data.max);
+        $('#maxmath').html("<input id=\"maxmathvalue\" type=\"text\"  readonly=\"readonly\" style=\"border-style:none\">");
+        $('#maxmathvalue').val(data.max);
     }else {
-        $('#maxmath').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:80%;\">")
+        $('#maxmath').html("<input id=\"resultMath\" type=\"text\" >")
     }
     if(data.min!=""){
-        $('#minmath').text(data.min);
+        $('#minmath').html("<input  id=\"minmathvalue\" type=\"text\"  readonly=\"readonly\" style=\"border-style:none\">");
+        $('#minmathvalue').val(data.min);
     }else {
-        $('#minmath').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:80%;\">")
+        $('#minmath').html("<input id=\"resultMath\" type=\"text\" >")
     }
     if(data.count!=""){
-        $('#outcome').text(data.count);
+        $('#outcome').html("<input   id=\"resultMathvalue\" type=\"text\" readonly=\"readonly\" style=\"border-style:none\">");
+        $('#resultMathvalue').val(data.count);
     }else {
-        $('#outcome').html("<input id=\"resultMath\" type=\"text\" class=\"div2\" style=\"width:80%;\">")
+        $('#outcome').html("<input id=\"resultMath\" type=\"text\" >")
     }
     $('#resultMath').css("height",$('#mathFlag').height())
+    $('#maxmathvalue').css("height",$('#mathFlag').height())
+    $('#minmathvalue').css("height",$('#mathFlag').height())
+    $('#resultMathvalue').css("height",$('#mathFlag').height())
+    $('#resultMath').css("width",$('#mathFlag').width()*1.5)
+    $('#maxmathvalue').css("width",$('#mathFlag').width()*1.5)
+    $('#minmathvalue').css("width",$('#mathFlag').width()*1.5)
+    $('#resultMathvalue').css("width",$('#mathFlag').width()*1.5)
+    $('#resultMath').focus();
+
+
 }
 
 let timer = null;
 
 
 function startTime(){
-
+    let sec =0;
     timer= setInterval(function(){
-
-    $.ajax({
-        url: "getTime",
-        type: "post",
-        data: {
-        },
-        datatype: "json",
-        timeout : 60000,
-        success: function (data) {
-
-           $('#hours').text(formatSeconds(data/1000));} }
+             sec++;
+           $('#hours').text(formatSeconds(sec));}
            ,1000)
-
-
-    });
-
-
 
 }
 
@@ -161,4 +192,17 @@ function formatSeconds(value) {
     return result;
 }
 
+function finger(num) {
+    let oldnum= $('#resultMath').val();
+    if(oldnum==""){
+        oldnum=0;
+    }
+    var newnum =parseInt(oldnum)*10+parseInt(num);
+    $('#resultMath').val(newnum);
+
+
+}
+function clearAction() {
+    $('#resultMath').val("");
+}
 
